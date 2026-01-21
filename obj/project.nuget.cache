@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "sXyYCF+n8sg=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\shaked.b\\source\\bowlingGeameServer\\BowlingGame.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\shaked.b\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.11\\microsoft.aspnetcore.openapi.9.0.11.nupkg.sha512",
+    "C:\\Users\\shaked.b\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\shaked.b\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\shaked.b\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512",
+    "C:\\Users\\shaked.b\\.nuget\\packages\\mysqlconnector\\2.5.0\\mysqlconnector.2.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
