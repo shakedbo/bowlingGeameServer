@@ -20,14 +20,8 @@ CREATE TABLE IF NOT EXISTS Rolls (
     CONSTRAINT CHK_Pins CHECK (Pins >= 0 AND Pins <= 10)
 ) ENGINE=InnoDB;
 
--- Index on GameId for fast lookups of rolls by game
-CREATE INDEX IX_Rolls_GameId ON Rolls(GameId);
-
--- Index on RollIndex within a game for ordered retrieval
+-- Index on GameId and RollIndex for fast lookups and ordered retrieval of rolls by game
 CREATE INDEX IX_Rolls_GameId_RollIndex ON Rolls(GameId, RollIndex);
 
--- Composite index for leaderboard queries (completed games sorted by score)
+-- Composite index for leaderboard queries and active games lookup (Status filter + FinalScore sorting)
 CREATE INDEX IX_Games_Status_FinalScore ON Games(Status, FinalScore DESC);
-
--- Index for active games lookup
-CREATE INDEX IX_Games_Status ON Games(Status);

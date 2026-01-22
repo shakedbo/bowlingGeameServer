@@ -11,11 +11,13 @@ public class BowlingServiceScoreTests
 {
     private readonly BowlingService _service;
     private readonly Mock<IGameRepository> _mockRepository;
+    private readonly Mock<IRollRepository> _mockRollRepository;
 
     public BowlingServiceScoreTests()
     {
         _mockRepository = new Mock<IGameRepository>();
-        _service = new BowlingService(_mockRepository.Object);
+        _mockRollRepository = new Mock<IRollRepository>();
+        _service = new BowlingService(_mockRepository.Object, _mockRollRepository.Object);
     }
 
     #region Perfect Game Tests

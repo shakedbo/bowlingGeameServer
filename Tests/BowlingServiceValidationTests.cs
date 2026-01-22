@@ -13,12 +13,14 @@ namespace BowlingGame.Tests;
 public class BowlingServiceValidationTests
 {
     private readonly Mock<IGameRepository> _mockRepository;
+    private readonly Mock<IRollRepository> _mockRollRepository;
     private readonly BowlingService _service;
 
     public BowlingServiceValidationTests()
     {
         _mockRepository = new Mock<IGameRepository>();
-        _service = new BowlingService(_mockRepository.Object);
+        _mockRollRepository = new Mock<IRollRepository>();
+        _service = new BowlingService(_mockRepository.Object, _mockRollRepository.Object);
     }
 
     #region RollAsync Exception Tests
@@ -53,7 +55,7 @@ public class BowlingServiceValidationTests
         var rolls = new List<Roll>();
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
 
         await Assert.ThrowsAsync<InvalidRollException>(() => 
             _service.RollAsync(1, new AddRollRequest { Pins = invalidPins }));
@@ -69,7 +71,7 @@ public class BowlingServiceValidationTests
         };
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
 
         // Trying to knock 5 pins when only 3 remain (7+5=12 > 10)
         await Assert.ThrowsAsync<InvalidRollException>(() => 
@@ -90,15 +92,15 @@ public class BowlingServiceValidationTests
         var rolls = new List<Roll>();
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
-        _mockRepository.Setup(r => r.AddRollAsync(1, pins, 0)).Returns(Task.CompletedTask);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.AddRollAsync(1, pins, 0)).Returns(Task.CompletedTask);
 
         var result = await _service.RollAsync(1, new AddRollRequest { Pins = pins });
 
         Assert.Equal(pins, result.Score);
         Assert.Equal(1, result.GameId);
         Assert.False(result.IsComplete);
-        _mockRepository.Verify(r => r.AddRollAsync(1, pins, 0), Times.Once);
+        _mockRollRepository.Verify(r => r.AddRollAsync(1, pins, 0), Times.Once);
     }
 
     [Fact]
@@ -111,13 +113,13 @@ public class BowlingServiceValidationTests
         };
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
-        _mockRepository.Setup(r => r.AddRollAsync(1, 8, 1)).Returns(Task.CompletedTask);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.AddRollAsync(1, 8, 1)).Returns(Task.CompletedTask);
 
         var result = await _service.RollAsync(1, new AddRollRequest { Pins = 8 });
 
         Assert.Equal(2, result.CurrentFrame); // Now in frame 2
-        _mockRepository.Verify(r => r.AddRollAsync(1, 8, 1), Times.Once);
+        _mockRollRepository.Verify(r => r.AddRollAsync(1, 8, 1), Times.Once);
     }
 
     [Fact]
@@ -128,8 +130,8 @@ public class BowlingServiceValidationTests
         var rolls = Enumerable.Range(0, 19).Select(i => new Roll { Pins = 0, RollIndex = i }).ToList();
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
-        _mockRepository.Setup(r => r.AddRollAsync(1, 0, 19)).Returns(Task.CompletedTask);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.AddRollAsync(1, 0, 19)).Returns(Task.CompletedTask);
         _mockRepository.Setup(r => r.UpdateGameAsync(It.Is<Game>(g => 
             g.Status == GameStatus.Completed && g.FinalScore == 0)))
             .Returns(Task.CompletedTask);
@@ -166,7 +168,7 @@ public class BowlingServiceValidationTests
         };
         
         _mockRepository.Setup(r => r.GetGameAsync(1)).ReturnsAsync(game);
-        _mockRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
+        _mockRollRepository.Setup(r => r.GetRollsAsync(1)).ReturnsAsync(rolls);
 
         var response = await _service.GetScoreAsync(1);
 

@@ -20,8 +20,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Register Repository
+// Register Repositories
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IRollRepository, RollRepository>();
 
 // Register Service
 builder.Services.AddScoped<IBowlingService, BowlingService>();

@@ -4,14 +4,10 @@ using MySqlConnector;
 
 namespace BowlingGame.API.Repositories;
 
-public class GameRepository : IGameRepository
+public class GameRepository : BaseRepository, IGameRepository
 {
-    private readonly string _connectionString;
-
-    public GameRepository(IConfiguration configuration)
+    public GameRepository(IConfiguration configuration) : base(configuration)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
     }
 
     public async Task<Game> CreateGameAsync(string playerName)
@@ -24,7 +20,7 @@ public class GameRepository : IGameRepository
             SELECT Id, PlayerName, CreatedAt, Status, FinalScore
             FROM Games WHERE Id = LAST_INSERT_ID()";
 
-        using var connection = new MySqlConnection(_connectionString);
+        using var connection = CreateConnection();
         await connection.OpenAsync();
 
         using var insertCommand = new MySqlCommand(insertSql, connection);
@@ -56,7 +52,7 @@ public class GameRepository : IGameRepository
             FROM Games
             WHERE Id = @GameId";
 
-        using var connection = new MySqlConnection(_connectionString);
+        using var connection = CreateConnection();
         using var command = new MySqlCommand(sql, connection);
         
         command.Parameters.AddWithValue("@GameId", gameId);
@@ -79,55 +75,6 @@ public class GameRepository : IGameRepository
         return null;
     }
 
-    public async Task AddRollAsync(int gameId, int pins, int rollIndex)
-    {
-        const string sql = @"
-            INSERT INTO Rolls (GameId, Pins, RollIndex)
-            VALUES (@GameId, @Pins, @RollIndex)";
-
-        using var connection = new MySqlConnection(_connectionString);
-        using var command = new MySqlCommand(sql, connection);
-        
-        command.Parameters.AddWithValue("@GameId", gameId);
-        command.Parameters.AddWithValue("@Pins", (byte)pins);
-        command.Parameters.AddWithValue("@RollIndex", rollIndex);
-
-        await connection.OpenAsync();
-        await command.ExecuteNonQueryAsync();
-    }
-
-    public async Task<List<Roll>> GetRollsAsync(int gameId)
-    {
-        const string sql = @"
-            SELECT Id, GameId, Pins, RollIndex
-            FROM Rolls
-            WHERE GameId = @GameId
-            ORDER BY RollIndex";
-
-        var rolls = new List<Roll>();
-
-        using var connection = new MySqlConnection(_connectionString);
-        using var command = new MySqlCommand(sql, connection);
-        
-        command.Parameters.AddWithValue("@GameId", gameId);
-
-        await connection.OpenAsync();
-        
-        using var reader = await command.ExecuteReaderAsync();
-        while (await reader.ReadAsync())
-        {
-            rolls.Add(new Roll
-            {
-                Id = reader.GetInt32(0),
-                GameId = reader.GetInt32(1),
-                Pins = (int)reader.GetInt16(2),
-                RollIndex = reader.GetInt32(3)
-            });
-        }
-
-        return rolls;
-    }
-
     public async Task UpdateGameAsync(Game game)
     {
         const string sql = @"
@@ -135,7 +82,7 @@ public class GameRepository : IGameRepository
             SET Status = @Status, FinalScore = @FinalScore
             WHERE Id = @GameId";
 
-        using var connection = new MySqlConnection(_connectionString);
+        using var connection = CreateConnection();
         using var command = new MySqlCommand(sql, connection);
         
         command.Parameters.AddWithValue("@GameId", game.Id);
@@ -157,7 +104,7 @@ public class GameRepository : IGameRepository
 
         var games = new List<Game>();
 
-        using var connection = new MySqlConnection(_connectionString);
+        using var connection = CreateConnection();
         using var command = new MySqlCommand(sql, connection);
         
         command.Parameters.AddWithValue("@Count", count);

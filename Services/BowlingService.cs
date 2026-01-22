@@ -10,10 +10,12 @@ namespace BowlingGame.API.Services;
 public class BowlingService : IBowlingService
 {
     private readonly IGameRepository _gameRepository;
+    private readonly IRollRepository _rollRepository;
 
-    public BowlingService(IGameRepository gameRepository)
+    public BowlingService(IGameRepository gameRepository, IRollRepository rollRepository)
     {
         _gameRepository = gameRepository;
+        _rollRepository = rollRepository;
     }
 
     public async Task<GameResponse> StartGameAsync(CreateGameRequest request)
@@ -39,13 +41,13 @@ public class BowlingService : IBowlingService
             throw new GameCompletedException(gameId);
         }
 
-        var rolls = await _gameRepository.GetRollsAsync(gameId);
+        var rolls = await _rollRepository.GetRollsAsync(gameId);
         var pinsArray = rolls.Select(r => r.Pins).ToList();
 
         ValidateRoll(pinsArray, request.Pins);
 
         var rollIndex = rolls.Count;
-        await _gameRepository.AddRollAsync(gameId, request.Pins, rollIndex);
+        await _rollRepository.AddRollAsync(gameId, request.Pins, rollIndex);
 
         pinsArray.Add(request.Pins);
 
@@ -75,7 +77,7 @@ public class BowlingService : IBowlingService
         var game = await _gameRepository.GetGameAsync(gameId)
             ?? throw new GameNotFoundException(gameId);
 
-        var rolls = await _gameRepository.GetRollsAsync(gameId);
+        var rolls = await _rollRepository.GetRollsAsync(gameId);
         var pinsArray = rolls.Select(r => r.Pins).ToList();
 
         var score = CalculateScore(pinsArray);

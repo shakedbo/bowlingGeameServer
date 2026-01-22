@@ -14,7 +14,8 @@ public class BowlingServiceGameStateTests
     public BowlingServiceGameStateTests()
     {
         var mockRepository = new Mock<IGameRepository>();
-        _service = new BowlingService(mockRepository.Object);
+        var mockRollRepository = new Mock<IRollRepository>();
+        _service = new BowlingService(mockRepository.Object, mockRollRepository.Object);
     }
 
     #region Empty/Initial State Tests
