@@ -3,13 +3,22 @@ using BowlingGame.API.Repositories;
 using BowlingGame.API.Repositories.Interfaces;
 using BowlingGame.API.Services;
 using BowlingGame.API.Services.Interfaces;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Bowling Game API",
+        Version = "v1",
+        Description = "A production-grade Bowling Game Backend API"
+    });
+});
 
 // Register Repository
 builder.Services.AddScoped<IGameRepository, GameRepository>();
@@ -26,7 +35,12 @@ app.UseExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Bowling Game API v1");
+        options.RoutePrefix = string.Empty; // Swagger at root URL
+    });
 }
 
 app.UseRouting();
