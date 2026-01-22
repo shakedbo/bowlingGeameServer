@@ -31,3 +31,7 @@ C:\Users\shaked.b\source\bowlingGeameServer\obj\Debug\net9.0\BowlingGame.API.pdb
 C:\Users\shaked.b\source\bowlingGeameServer\obj\Debug\net9.0\BowlingGame.API.genruntimeconfig.cache
 C:\Users\shaked.b\source\bowlingGeameServer\obj\Debug\net9.0\ref\BowlingGame.API.dll
 C:\Users\shaked.b\source\bowlingGeameServer\bin\Debug\net9.0\MySqlConnector.dll
+C:\Users\shaked.b\source\bowlingGeameServer\obj\Debug\net9.0\BowlingGame.API.sourcelink.json
+C:\Users\shaked.b\source\bowlingGeameServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\shaked.b\source\bowlingGeameServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\shaked.b\source\bowlingGeameServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
