@@ -15,7 +15,7 @@ This API allows users to create bowling games, record rolls, calculate scores fo
 
 ## Tech Stack
 
-- **.NET 9** – ASP.NET Core Web API
+- **.NET 10** – ASP.NET Core Web API
 - **MySQL** – Data persistence
 - **ADO.NET** – Raw data access (no ORM)
 - **Swagger/OpenAPI** – API documentation
