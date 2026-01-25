@@ -5,8 +5,8 @@ namespace BowlingGame.API.Services.Interfaces;
 
 public interface IBowlingService
 {
-    Task<GameResponse> StartGameAsync(CreateGameRequest request);
-    Task<ScoreResponse> RollAsync(int gameId, AddRollRequest request);
-    Task<ScoreResponse> GetScoreAsync(int gameId);
-    Task<List<LeaderboardEntryResponse>> GetLeaderboardAsync(int count);
+    Task<GameResponseDto> StartGameAsync(CreateGameRequestDro request);
+    Task<ScoreResponseDto> RollAsync(int gameId, AddRollRequestDto request);
+    Task<ScoreResponseDto> GetScoreAsync(int gameId);
+    Task<List<LeaderboardEntryResponseDto>> GetLeaderboardAsync(int count);
 }

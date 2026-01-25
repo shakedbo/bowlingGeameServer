@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BowlingGame.API.DTOs.Requests;
 
-public class AddRollRequest
+public class AddRollRequestDto
 {
     [Required]
     [Range(0, 10)]
