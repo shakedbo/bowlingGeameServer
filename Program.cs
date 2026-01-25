@@ -1,4 +1,5 @@
 using BowlingGame.API.Middleware;
+using BowlingGame.API.Middleware.ExceptionMapping;
 using BowlingGame.API.Repositories;
 using BowlingGame.API.Repositories.Interfaces;
 using BowlingGame.API.Services;
@@ -19,6 +20,9 @@ builder.Services.AddSwaggerGen(options =>
         Description = "A production-grade Bowling Game Backend API"
     });
 });
+
+// Register Exception Mapping
+builder.Services.AddExceptionMapping();
 
 // Register Repositories
 builder.Services.AddScoped<IGameRepository, GameRepository>();
