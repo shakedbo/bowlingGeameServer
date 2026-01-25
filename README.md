@@ -87,6 +87,10 @@ The following features were considered during development but intentionally left
 - No rate limiting on API endpoints
 - **Future:** Add throttling to prevent abuse
 
+### 🏷️ Attribute-Based Exception Handler Registration
+- Exception handlers are manually registered in `ExceptionMappingServiceExtensions`
+- **Future:** Use custom attributes (e.g., `[ExceptionHandler(typeof(GameNotFoundException))]`) on handler classes to enable automatic discovery and registration via reflection, eliminating the need for manual DI registration
+
 ---
 
 *Built as part of an interview assignment.*
