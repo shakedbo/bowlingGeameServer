@@ -1,6 +1,6 @@
 namespace BowlingGame.API.DTOs.Responses;
 
-public class LeaderboardEntryResponse
+public class LeaderboardEntryResponseDto
 {
     public int Rank { get; set; }
     public string PlayerName { get; set; } = string.Empty;

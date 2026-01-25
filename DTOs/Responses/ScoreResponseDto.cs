@@ -1,6 +1,6 @@
 namespace BowlingGame.API.DTOs.Responses;
 
-public class ScoreResponse
+public class ScoreResponseDto
 {
     public int GameId { get; set; }
     public string PlayerName { get; set; } = string.Empty;
