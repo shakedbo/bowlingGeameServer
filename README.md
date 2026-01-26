@@ -87,6 +87,10 @@ The following features were considered during development but intentionally left
 - No rate limiting on API endpoints
 - **Future:** Add throttling to prevent abuse
 
+### 🗄️ Database Connection Pooling
+- Currently creates a new database connection for every SQL query
+- **Future:** Implement connection pooling to reuse connections, improving performance and reducing overhead
+
 ---
 
 *Built as part of an interview assignment.*
