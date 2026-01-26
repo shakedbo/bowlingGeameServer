@@ -34,8 +34,25 @@ This API allows users to create bowling games, record rolls, calculate scores fo
 - **Controllers** – HTTP request handling
 - **Services** – Business logic & scoring calculations
 - **Repositories** – Data access layer
-- **Middleware** – Global exception handling with custom exception mappers
+- **Middleware** – Global exception handling & request/response logging
 - **DTOs** – Request/Response models
+
+## Request/Response Logging
+
+The API includes a logging middleware that captures all HTTP requests and responses for monitoring and debugging:
+
+| Field | Description |
+|-------|-------------|
+| `Timestamp` | UTC time of the request |
+| `HttpMethod` | GET, POST, PUT, DELETE |
+| `Path` | URL path with query string |
+| `StatusCode` | HTTP response code |
+| `RequestBody` | JSON payload (truncated to 4KB) |
+| `ResponseBody` | API response (truncated to 4KB) |
+| `DurationMs` | Request processing time |
+| `ExceptionMessage` | Error message if failed |
+
+Logs are persisted to the `ApiLogs` table in MySQL for analysis.
 
 ## Running the Project
 
