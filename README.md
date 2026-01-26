@@ -91,6 +91,10 @@ The following features were considered during development but intentionally left
 - Currently creates a new database connection for every SQL query
 - **Future:** Implement connection pooling to reuse connections, improving performance and reducing overhead
 
+### 🏷️ Attribute-Based Exception Handler Registration
+- Exception handlers are manually registered in `ExceptionMappingServiceExtensions`
+- **Future:** Use custom attributes (e.g., `[ExceptionHandler(typeof(GameNotFoundException))]`) on handler classes to enable automatic discovery and registration via reflection, eliminating the need for manual DI registration
+
 ---
 
 *Built as part of an interview assignment.*
