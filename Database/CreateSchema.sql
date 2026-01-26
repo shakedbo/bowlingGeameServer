@@ -25,3 +25,22 @@ CREATE INDEX IX_Rolls_GameId_RollIndex ON Rolls(GameId, RollIndex);
 
 -- Composite index for leaderboard queries and active games lookup (Status filter + FinalScore sorting)
 CREATE INDEX IX_Games_Status_FinalScore ON Games(Status, FinalScore DESC);
+
+-- Create ApiLogs table for request/response logging
+CREATE TABLE IF NOT EXISTS ApiLogs (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Timestamp DATETIME NOT NULL,
+    HttpMethod VARCHAR(10) NOT NULL,
+    Path VARCHAR(500) NOT NULL,
+    StatusCode INT NOT NULL,
+    RequestBody TEXT NULL,
+    ResponseBody TEXT NULL,
+    DurationMs BIGINT NOT NULL,
+    ExceptionMessage TEXT NULL
+) ENGINE=InnoDB;
+
+-- Index on Timestamp for time-based queries
+CREATE INDEX IX_ApiLogs_Timestamp ON ApiLogs(Timestamp DESC);
+
+-- Index on StatusCode for filtering errors
+CREATE INDEX IX_ApiLogs_StatusCode ON ApiLogs(StatusCode);

@@ -27,6 +27,7 @@ builder.Services.AddExceptionMapping();
 // Register Repositories
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IRollRepository, RollRepository>();
+builder.Services.AddScoped<IApiLogRepository, ApiLogRepository>();
 
 // Register Service
 builder.Services.AddScoped<IBowlingService, BowlingService>();
@@ -35,7 +36,10 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline
 
-// Global exception handling - must be first in pipeline
+// Request/Response logging - captures all requests including exceptions
+app.UseRequestLogging();
+
+// Global exception handling
 app.UseExceptionMiddleware();
 
 if (app.Environment.IsDevelopment())
